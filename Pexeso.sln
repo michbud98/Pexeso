@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pexeso", "Pexeso.csproj", "{2A26F4CA-8C46-4D2B-80C9-0028D52AE2BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PexesoLibrary", "PexesoLibrary\PexesoLibrary.csproj", "{9D2BAF07-C82C-44F2-9D42-739BCEDBAB79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourcesLibrary", "ResourcesLibrary\ResourcesLibrary.csproj", "{5D5A3FC6-405E-494B-B5CC-D91CFA0D6686}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{2A26F4CA-8C46-4D2B-80C9-0028D52AE2BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A26F4CA-8C46-4D2B-80C9-0028D52AE2BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A26F4CA-8C46-4D2B-80C9-0028D52AE2BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D2BAF07-C82C-44F2-9D42-739BCEDBAB79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D2BAF07-C82C-44F2-9D42-739BCEDBAB79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D2BAF07-C82C-44F2-9D42-739BCEDBAB79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D2BAF07-C82C-44F2-9D42-739BCEDBAB79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D5A3FC6-405E-494B-B5CC-D91CFA0D6686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D5A3FC6-405E-494B-B5CC-D91CFA0D6686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D5A3FC6-405E-494B-B5CC-D91CFA0D6686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D5A3FC6-405E-494B-B5CC-D91CFA0D6686}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

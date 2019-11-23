@@ -52,8 +52,6 @@
     <Compile Include="PexesoUI.Designer.cs">
       <DependentUpon>PexesoUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="PexesoBoard.cs" />
-    <Compile Include="PexesoCard.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="PexesoUI.resx">
@@ -80,6 +78,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="PexesoLibrary\PexesoLibrary.csproj">
+      <Project>{9d2baf07-c82c-44f2-9d42-739bcedbab79}</Project>
+      <Name>PexesoLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="ResourcesLibrary\ResourcesLibrary.csproj">
+      <Project>{5d5a3fc6-405e-494b-b5cc-d91cfa0d6686}</Project>
+      <Name>ResourcesLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

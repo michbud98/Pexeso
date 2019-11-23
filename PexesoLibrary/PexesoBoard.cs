@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pexeso
 {
-    class PexesoBoard
+    public class PexesoBoard
     {
         /// <summary>
         /// 2D field which saves all PexesoCars on board

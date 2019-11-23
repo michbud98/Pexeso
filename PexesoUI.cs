@@ -50,7 +50,7 @@ namespace Pexeso
                     PictureBox picture = new PictureBox
                     {
                         Name = $"pictureBox[{row}][{column}]",
-                        Image = Image.FromFile("Smile.jpg"),
+                        Image = ResourcesLibrary.Resource1.Smile,
                         Size = new Size(width, height),
                         SizeMode = PictureBoxSizeMode.StretchImage,
                         Anchor = AnchorStyles.None
@@ -71,8 +71,8 @@ namespace Pexeso
         {
             try
             {
-                board = new PexesoBoard(8, 8);
-                GeneratePexesoTable(8, 8);
+                board = new PexesoBoard(4, 4);
+                GeneratePexesoTable(4, 4);
             }
             catch(ArgumentException ex)
             {
