@@ -55,10 +55,18 @@ namespace Pexeso
                         SizeMode = PictureBoxSizeMode.StretchImage,
                         Anchor = AnchorStyles.None
                     };
+                    picture.MouseClick += Picture_Click;
                     pexesoLayoutPanel.Controls.Add(picture, column, row);
                 }
             }
         }
+
+        private void Picture_Click(object sender, EventArgs e)
+        {
+            PictureBox clickedPictureBox = sender as PictureBox;
+            Console.WriteLine(clickedPictureBox.Name);
+        }
+
         private void newGameToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             try
