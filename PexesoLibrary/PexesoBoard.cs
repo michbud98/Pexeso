@@ -9,17 +9,18 @@ namespace Pexeso
         /// 2D field which saves all PexesoCars on board
         /// </summary>
         private PexesoCard[,] pexesoCardsArray;
-        
+
         /// <summary>
         /// Constructor of PexesoBoard class
         /// </summary>
-        /// <param name="x">number of rows</param>
-        /// <param name="y">number of columns</param>
-        public PexesoBoard(int x, int y)
+        /// <param name="rowCount">number of rows</param>
+        /// <param name="columnCount">number of columns</param>
+        /// <exception cref="ArgumentException">User tried to create PexesoBoard with odd number of elements.</exception>
+        public PexesoBoard(int rowCount, int columnCount)
         {
-            if (x * y % 2 == 0)
+            if (rowCount * columnCount % 2 == 0)
             {
-                this.pexesoCardsArray = new PexesoCard[x, y];
+                this.pexesoCardsArray = new PexesoCard[rowCount, columnCount];
             }
             else
             {
@@ -30,14 +31,14 @@ namespace Pexeso
         /// <summary>
         /// Adds new PexesoCard to coordinates on Pexesoboard
         /// </summary>
-        /// <param name="x">Rows coordinate in field</param>
-        /// <param name="y">Column coordinate in field</param>
+        /// <param name="row">Rows coordinate in field</param>
+        /// <param name="column">Column coordinate in field</param>
         /// <param name="picture">PictureBox representing a PexesoCard in UI</param>
-        public void AddToPexesoBoard(int x, int y, PictureBox picture)
+        public void AddToPexesoBoard(int row, int column, PictureBox picture)
         {
             Random rnd = new Random();
-            pexesoCardsArray[x, y] = new PexesoCard(rnd.Next(8), picture);
-            Console.WriteLine("Added [" + pexesoCardsArray[x, y].ToString() + "]");
+            pexesoCardsArray[row, column] = new PexesoCard(rnd.Next(8), picture);
+            Console.WriteLine("Added [" + pexesoCardsArray[row, column].ToString() + "]");
         }
 
         public int getPexesoBoardRows()
