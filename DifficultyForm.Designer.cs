@@ -29,62 +29,61 @@
         private void InitializeComponent()
         {
             this.difficultyLabel = new System.Windows.Forms.Label();
-            this.difficultyBox = new System.Windows.Forms.ComboBox();
-            this.chooseButton = new System.Windows.Forms.Button();
-            this.cancelButton = new System.Windows.Forms.Button();
+            this.difficultyComboBox = new System.Windows.Forms.ComboBox();
+            this.ChooseButton = new System.Windows.Forms.Button();
+            this.CancelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // difficultyLabel
             // 
             this.difficultyLabel.AutoSize = true;
-            this.difficultyLabel.Location = new System.Drawing.Point(42, 12);
+            this.difficultyLabel.Location = new System.Drawing.Point(75, 10);
             this.difficultyLabel.Name = "difficultyLabel";
-            this.difficultyLabel.Size = new System.Drawing.Size(159, 20);
+            this.difficultyLabel.Size = new System.Drawing.Size(119, 20);
             this.difficultyLabel.TabIndex = 0;
-            this.difficultyLabel.Text = "Choose your difficulty";
+            this.difficultyLabel.Text = "Select difficulty:";
             // 
-            // difficultyBox
+            // difficultyComboBox
             // 
-            this.difficultyBox.FormattingEnabled = true;
-            this.difficultyBox.Items.AddRange(new object[] {
+            this.difficultyComboBox.FormattingEnabled = true;
+            this.difficultyComboBox.Items.AddRange(new object[] {
             "Easy",
-            "Normal",
-            "Hard"});
-            this.difficultyBox.Location = new System.Drawing.Point(12, 36);
-            this.difficultyBox.Name = "difficultyBox";
-            this.difficultyBox.Size = new System.Drawing.Size(212, 28);
-            this.difficultyBox.TabIndex = 1;
+            "Normal"});
+            this.difficultyComboBox.Location = new System.Drawing.Point(16, 33);
+            this.difficultyComboBox.Name = "difficultyComboBox";
+            this.difficultyComboBox.Size = new System.Drawing.Size(239, 28);
+            this.difficultyComboBox.TabIndex = 1;
             // 
-            // chooseButton
+            // ChooseButton
             // 
-            this.chooseButton.Location = new System.Drawing.Point(12, 70);
-            this.chooseButton.Name = "chooseButton";
-            this.chooseButton.Size = new System.Drawing.Size(103, 48);
-            this.chooseButton.TabIndex = 2;
-            this.chooseButton.Text = "Choose";
-            this.chooseButton.UseVisualStyleBackColor = true;
+            this.ChooseButton.Location = new System.Drawing.Point(13, 68);
+            this.ChooseButton.Name = "ChooseButton";
+            this.ChooseButton.Size = new System.Drawing.Size(118, 55);
+            this.ChooseButton.TabIndex = 2;
+            this.ChooseButton.Text = "Choose";
+            this.ChooseButton.UseVisualStyleBackColor = true;
+            this.ChooseButton.Click += new System.EventHandler(this.ChooseButton_Click);
             // 
-            // cancelButton
+            // CancelButton
             // 
-            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(121, 70);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(103, 48);
-            this.cancelButton.TabIndex = 3;
-            this.cancelButton.Text = "Cancel";
-            this.cancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelButton.Location = new System.Drawing.Point(137, 67);
+            this.CancelButton.Name = "CancelButton";
+            this.CancelButton.Size = new System.Drawing.Size(118, 55);
+            this.CancelButton.TabIndex = 3;
+            this.CancelButton.Text = "Cancel";
+            this.CancelButton.UseVisualStyleBackColor = true;
             // 
             // DifficultyForm
             // 
-            this.AcceptButton = this.chooseButton;
+            this.AcceptButton = this.ChooseButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(238, 130);
+            this.ClientSize = new System.Drawing.Size(270, 134);
             this.ControlBox = false;
-            this.Controls.Add(this.cancelButton);
-            this.Controls.Add(this.chooseButton);
-            this.Controls.Add(this.difficultyBox);
+            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.ChooseButton);
+            this.Controls.Add(this.difficultyComboBox);
             this.Controls.Add(this.difficultyLabel);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -99,8 +98,8 @@
         #endregion
 
         private System.Windows.Forms.Label difficultyLabel;
-        private System.Windows.Forms.ComboBox difficultyBox;
-        private System.Windows.Forms.Button chooseButton;
-        private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.ComboBox difficultyComboBox;
+        private System.Windows.Forms.Button ChooseButton;
+        private System.Windows.Forms.Button CancelButton;
     }
 }

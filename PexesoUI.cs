@@ -10,12 +10,24 @@ using System.Windows.Forms;
 
 namespace Pexeso
 {
+    /// <summary>
+    /// Delegate that transfers data from Difficulty form to PexesoUI form
+    /// </summary>
+    /// <param name="data">Data to be transfered</param>
+    public delegate void DataTransfer(string data);
+
     public partial class PexesoForm : Form
     {
         private PexesoBoard board;
+        public DataTransfer transferDelegate;
+        private string gameDifficulty;
+        /// <summary>
+        /// Form that represents PexesoBoard on UI
+        /// </summary>
         public PexesoForm()
         {
             InitializeComponent();
+            transferDelegate += new DataTransfer(SetDifficulty);
         }
         /// <summary>
         /// Creates a PexesoBoard representation on UI
@@ -75,19 +87,57 @@ namespace Pexeso
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender">A Picture box object which we clicked</param>
+        /// <param name="e">A click event</param>
         private void Picture_Click(object sender, EventArgs e)
         {
             PictureBox clickedPictureBox = sender as PictureBox;
             Console.WriteLine(clickedPictureBox.Name);
         }
 
+        /// <summary>
+        /// Sets difficulty
+        /// </summary>
+        /// <param name="difficultyRecieved">Difficulty recieved from DifficultyForm</param>
+        public void SetDifficulty(string difficultyRecieved)
+        {
+            gameDifficulty = difficultyRecieved;
+        }
+
+        /// <summary>
+        /// Creates a new game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NewGameToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
+            //Garbage collection
+            board = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            DifficultyForm diffForm = new DifficultyForm(transferDelegate);
+            diffForm.ShowDialog();
+            diffForm.Dispose();
             try
             {
-                board = new PexesoBoard(16, 8);
-                GeneratePexesoTable(16, 8, board);
+                switch (gameDifficulty)
+                {
+                    case "Easy":
+                        board = new PexesoBoard(4, 4);
+                        GeneratePexesoTable(4, 4, board);
+                        break;
+                    case "Normal":
+                        board = new PexesoBoard(8, 8);
+                        GeneratePexesoTable(8, 8, board);
+                        break;
+                    default:
+                        MessageBox.Show("Warning: Difficulty was not selected.");
+                        break;
+                }
             }
             catch(ArgumentException ex)
             {
