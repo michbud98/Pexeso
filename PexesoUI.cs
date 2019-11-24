@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -88,6 +89,50 @@ namespace Pexeso
             }
         }
         /// <summary>
+        /// Finds row coordinate of pictureBox
+        /// </summary>
+        /// <param name="pictureBoxName">PictureBox name on which we clicked</param>
+        /// <exception cref="ArgumentException"></exception>
+        /// <returns>PictureBox row coordinate</returns>
+        private int getPictureBoxRow(string pictureBoxName)
+        {
+            Regex regex = new Regex(@"(pictureBox)\[(\d+)\]\[(\d+)\]");
+            Match match = regex.Match(pictureBoxName);
+            if (match.Success && Int32.TryParse(match.Groups[2].Value, out int result))
+            {
+                return result;
+            }else if (!match.Success)
+            {
+                throw new ArgumentException($"{pictureBoxName} doesnt match regex.", "pictureBoxName");
+            }else
+            {
+                throw new ArgumentException($"Cant extract row position from {pictureBoxName}", "pictureBoxName");
+            }
+        }
+        /// <summary>
+        /// Finds column coordinate of pictureBox
+        /// </summary>
+        /// <param name="pictureBoxName">PictureBox name on which we clicked</param>
+        /// <exception cref="ArgumentException">RowCount or columnCount number is not the same as in PexesoBoard object</exception>
+        /// <returns>PictureBox column coordinate</returns>
+        private int getPictureBoxColumn(string pictureBoxName)
+        {
+            Regex regex = new Regex(@"(pictureBox)\[(\d+)\]\[(\d+)\]");
+            Match match = regex.Match(pictureBoxName);
+            if (match.Success && Int32.TryParse(match.Groups[3].Value, out int result))
+            {
+                return result;
+            }
+            else if (!match.Success)
+            {
+                throw new ArgumentException($"{pictureBoxName} doesnt match regex.", "pictureBoxName");
+            }
+            else
+            {
+                throw new ArgumentException($"Cant extract column position from {pictureBoxName}", "pictureBoxName");
+            }
+        }
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="sender">A Picture box object which we clicked</param>
@@ -95,7 +140,9 @@ namespace Pexeso
         private void Picture_Click(object sender, EventArgs e)
         {
             PictureBox clickedPictureBox = sender as PictureBox;
-            Console.WriteLine(clickedPictureBox.Name);
+            Console.WriteLine("Clicked PictureBox name: " + clickedPictureBox.Name);
+            Console.WriteLine($"Row parameter: {getPictureBoxRow(clickedPictureBox.Name)}" +
+                $"\r\nColumn parameter {getPictureBoxColumn(clickedPictureBox.Name)}");
         }
 
         /// <summary>
