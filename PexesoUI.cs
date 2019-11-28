@@ -65,7 +65,7 @@ namespace Pexeso
 
                 for (int row = 0; row < rowCount; row++)
                 {
-                    //Next, add a row.  Only do this when once, when creating the first column
+                    //Next, add a row.  Only do this once, when creating the first column
                     if (column == 0)
                     {
                         pexesoLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -85,6 +85,7 @@ namespace Pexeso
                     picture.MouseClick += Picture_Click;
                     pexesoLayoutPanel.Controls.Add(picture, column, row);
                     board.AddToPexesoBoard(row, column, picture);
+                    
                 }
             }
         }
@@ -94,7 +95,7 @@ namespace Pexeso
         /// <param name="pictureBoxName">PictureBox name on which we clicked</param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns>PictureBox row coordinate</returns>
-        private int getPictureBoxRow(string pictureBoxName)
+        private int GetPictureBoxRow(string pictureBoxName)
         {
             Regex regex = new Regex(@"(pictureBox)\[(\d+)\]\[(\d+)\]");
             Match match = regex.Match(pictureBoxName);
@@ -115,7 +116,7 @@ namespace Pexeso
         /// <param name="pictureBoxName">PictureBox name on which we clicked</param>
         /// <exception cref="ArgumentException">RowCount or columnCount number is not the same as in PexesoBoard object</exception>
         /// <returns>PictureBox column coordinate</returns>
-        private int getPictureBoxColumn(string pictureBoxName)
+        private int GetPictureBoxColumn(string pictureBoxName)
         {
             Regex regex = new Regex(@"(pictureBox)\[(\d+)\]\[(\d+)\]");
             Match match = regex.Match(pictureBoxName);
@@ -141,8 +142,8 @@ namespace Pexeso
         {
             PictureBox clickedPictureBox = sender as PictureBox;
             Console.WriteLine("Clicked PictureBox name: " + clickedPictureBox.Name);
-            Console.WriteLine($"Row parameter: {getPictureBoxRow(clickedPictureBox.Name)}" +
-                $"\r\nColumn parameter {getPictureBoxColumn(clickedPictureBox.Name)}");
+            Console.WriteLine($"Row parameter: {GetPictureBoxRow(clickedPictureBox.Name)}" +
+                $"\r\nColumn parameter {GetPictureBoxColumn(clickedPictureBox.Name)}");
         }
 
         /// <summary>

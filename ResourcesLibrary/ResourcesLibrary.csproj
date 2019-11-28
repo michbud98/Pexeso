@@ -49,7 +49,9 @@
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Pictures\1.jpg" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource1.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -58,6 +60,99 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Pictures\Smile.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\6.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\7.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\8.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\9.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\10.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\11.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\12.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\13.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\14.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\15.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\16.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\17.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\18.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\19.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\20.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\21.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\22.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\23.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\24.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\25.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\26.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\27.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\28.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\31.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
