@@ -1,23 +1,32 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
+
 
 namespace Pexeso
 {
-    class PexesoCard
+    public class PexesoCard
     {   
+        public string Name { get; set; }
         /// <summary>
         /// Used to identify the same cards. This int must be higher then or equal to 0
         /// </summary>
         public int VerificationInt { get; set; }
         /// <summary>
-        /// Identifies which picturebox represents the PexesoCard
+        /// Picture that will represent PexesoCard in UI
         /// </summary>
-        public PictureBox Picture { get; set; }
+        public Image Picture { get; set; }
+        /// <summary>
+        /// Tells us if this PexesoCard was already found
+        /// </summary>
+        public bool Found { get; set; }
 
-        public PexesoCard(int verificationInt, PictureBox picture)
+        public PexesoCard(string name, int verificationInt, Image picture)
         {
+            this.Name = name;
             this.VerificationInt = verificationInt;
             this.Picture = picture;
+            Found = false;
         }
         /// <summary>
         /// Debug ToString
@@ -25,7 +34,7 @@ namespace Pexeso
         /// <returns>String with Verification int and PictureBox name</returns>
         public override String ToString()
         {
-            return "Pexeso card verificationInt = " + VerificationInt + ", pictureBox = " + Picture.Name;
+            return $"Pexeso card name: {Name}, Pexeso card verificationInt =  {VerificationInt}, Pexeso card found bool =  {Found}";
         }
     }
 }

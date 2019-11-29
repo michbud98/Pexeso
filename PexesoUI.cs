@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pexeso
@@ -19,9 +14,22 @@ namespace Pexeso
 
     public partial class PexesoForm : Form
     {
-        private PexesoBoard board;
+        /// <summary>
+        /// Stores PexesoCards object in array
+        /// </summary>
+        private PexesoBoard _board;
         public DataTransfer transferDelegate;
-        private string gameDifficulty;
+        /// <summary>
+        /// Stores game difficulty
+        /// </summary>
+        private string _gameDifficulty;
+        /// <summary>
+        /// Dictionary that stores 2 selected cards
+        /// Key - string with value equal to 0 (First card selected) or 1 (Second card selected)
+        /// Value - Array that stores information about PictureBox selected (0) and PexesoCard selected (1)
+        /// </summary>
+        private Dictionary<int, Object[]> _selectedCards = new Dictionary<int, Object[]>(2);
+        
         /// <summary>
         /// Form that represents PexesoBoard on UI
         /// </summary>
@@ -84,10 +92,94 @@ namespace Pexeso
                     };
                     picture.MouseClick += Picture_Click;
                     pexesoLayoutPanel.Controls.Add(picture, column, row);
-                    board.AddToPexesoBoard(row, column, picture);
+                    board.AddToPexesoBoard(row, column, ResourcesLibrary.Resource1._1);
                     
                 }
             }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender">A Picture box object which we clicked</param>
+        /// <param name="e">A click event</param>
+        private void Picture_Click(object sender, EventArgs e)
+        {
+            PictureBox clickedPictureBox = sender as PictureBox;
+            PexesoCard selectedPexesoCard = _board.GetPexesoCard(GetPictureBoxRow(clickedPictureBox.Name), GetPictureBoxColumn(clickedPictureBox.Name));
+            SaveSelectedCard(clickedPictureBox, selectedPexesoCard);
+            
+        }
+        /// <summary>
+        /// Saves Clicked PictureBox and selected PexesoCard into _selectedCards Dictionary
+        /// </summary>
+        /// <param name="clickedPictureBox">PictureBox that player clicked on</param>
+        /// <param name="selectedPexesoCard">PexesoCard that was selected through clicked PictureBox</param>
+        private void SaveSelectedCard(PictureBox clickedPictureBox, PexesoCard selectedPexesoCard)
+        {
+            if (_selectedCards[0] == null)
+            {
+                SaveSelectedCardInternal(clickedPictureBox, selectedPexesoCard, 0);
+            }
+            else if(_selectedCards[0] != null && _selectedCards[1] == null)
+            {
+                SaveSelectedCardInternal(clickedPictureBox, selectedPexesoCard, 1);
+            }
+            else if (_selectedCards[0] != null && _selectedCards[1] != null)
+            {
+                _selectedCards[0] = null;
+                _selectedCards[1] = null;
+                SaveSelectedCardInternal(clickedPictureBox, selectedPexesoCard, 0);
+            }
+            PrintSelectedCard();
+        }
+        /// <summary>
+        /// Internal method of SaveSelectedCard
+        /// </summary>
+        /// <param name="clickedPictureBox">PictureBox that player clicked on</param>
+        /// <param name="selectedPexesoCard">PexesoCard that was selected through clicked PictureBox</param>
+        private void SaveSelectedCardInternal(PictureBox clickedPictureBox, PexesoCard selectedPexesoCard, int orderInt)
+        {
+            if(orderInt > 1 && orderInt < 0)
+            {
+                throw new ArgumentException("Order int for selected card is 0 or 1.", "orderInt");
+            }
+            else
+            {
+                Object[] PexesoCardArray = new Object[2];
+                PexesoCardArray[0] = clickedPictureBox;
+                PexesoCardArray[1] = selectedPexesoCard;
+                _selectedCards[orderInt] = PexesoCardArray;
+            }
+        }
+        /// <summary>
+        /// Prints out currently selected PexesoCards
+        /// </summary>
+        private void PrintSelectedCard()
+        {
+            PictureBox checkPictureBox = null;
+            if (_selectedCards[0] != null && _selectedCards[1] == null)
+            {
+                Console.WriteLine("-----First selected card-----");
+                checkPictureBox = _selectedCards[0][0] as PictureBox;
+                Console.WriteLine($"Clicked PictureBox name:{checkPictureBox.Name}");
+                Console.WriteLine($"[{_selectedCards[0][1].ToString()}]");
+                Console.WriteLine("-----Second selected card-----");
+                Console.WriteLine("-----Not yet selected-----");
+                Console.WriteLine();
+            }
+            else if (_selectedCards[0] != null && _selectedCards[1] != null)
+            {
+                Console.WriteLine("-----First selected card-----");
+                checkPictureBox = _selectedCards[0][0] as PictureBox;
+                Console.WriteLine($"Clicked PictureBox name:{checkPictureBox.Name}");
+                Console.WriteLine($"[{_selectedCards[0][1].ToString()}]");
+                Console.WriteLine("-----Second selected card-----");
+                checkPictureBox = _selectedCards[1][0] as PictureBox;
+                Console.WriteLine($"Clicked PictureBox name:{checkPictureBox.Name}");
+                Console.WriteLine($"[{_selectedCards[1][1].ToString()}]");
+                Console.WriteLine();
+            }
+            
         }
         /// <summary>
         /// Finds row coordinate of pictureBox
@@ -134,25 +226,12 @@ namespace Pexeso
             }
         }
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender">A Picture box object which we clicked</param>
-        /// <param name="e">A click event</param>
-        private void Picture_Click(object sender, EventArgs e)
-        {
-            PictureBox clickedPictureBox = sender as PictureBox;
-            Console.WriteLine("Clicked PictureBox name: " + clickedPictureBox.Name);
-            Console.WriteLine($"Row parameter: {GetPictureBoxRow(clickedPictureBox.Name)}" +
-                $"\r\nColumn parameter {GetPictureBoxColumn(clickedPictureBox.Name)}");
-        }
-
-        /// <summary>
         /// Sets difficulty
         /// </summary>
         /// <param name="difficultyRecieved">Difficulty recieved from DifficultyForm</param>
         public void SetDifficulty(string difficultyRecieved)
         {
-            gameDifficulty = difficultyRecieved;
+            _gameDifficulty = difficultyRecieved;
         }
 
         /// <summary>
@@ -162,25 +241,33 @@ namespace Pexeso
         /// <param name="e"></param>
         private void NewGameToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            //Garbage collection
-            board = null;
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+            //Garbage collection from previous game
+            if(_board != null)
+            {
+                _board.CleanPexesoBoard();
+                _board = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+            //Prepares space for selected cards
+            _selectedCards.Add(0, null);
+            _selectedCards.Add(1, null);
 
+            //Shows a difficulty form to select difficulty
             DifficultyForm diffForm = new DifficultyForm(transferDelegate);
             diffForm.ShowDialog();
             diffForm.Dispose();
             try
             {
-                switch (gameDifficulty)
+                switch (_gameDifficulty)
                 {
                     case "Easy":
-                        board = new PexesoBoard(4, 4);
-                        GeneratePexesoTable(4, 4, board);
+                        _board = new PexesoBoard(4, 4);
+                        GeneratePexesoTable(4, 4, _board);
                         break;
                     case "Normal":
-                        board = new PexesoBoard(8, 8);
-                        GeneratePexesoTable(8, 8, board);
+                        _board = new PexesoBoard(8, 8);
+                        GeneratePexesoTable(8, 8, _board);
                         break;
                     default:
                         MessageBox.Show("Warning: Difficulty was not selected.");

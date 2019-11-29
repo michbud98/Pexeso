@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Pexeso
@@ -8,7 +9,7 @@ namespace Pexeso
         /// <summary>
         /// 2D field which saves all PexesoCars on board
         /// </summary>
-        private PexesoCard[,] pexesoCardsArray;
+        private PexesoCard[,] _pexesoCardsArray;
 
         /// <summary>
         /// Constructor of PexesoBoard class
@@ -20,7 +21,7 @@ namespace Pexeso
         {
             if (rowCount * columnCount % 2 == 0)
             {
-                this.pexesoCardsArray = new PexesoCard[rowCount, columnCount];
+                this._pexesoCardsArray = new PexesoCard[rowCount, columnCount];
             }
             else
             {
@@ -33,22 +34,51 @@ namespace Pexeso
         /// </summary>
         /// <param name="row">Rows coordinate in field</param>
         /// <param name="column">Column coordinate in field</param>
-        /// <param name="picture">PictureBox representing a PexesoCard in UI</param>
-        public void AddToPexesoBoard(int row, int column, PictureBox picture)
+        /// <param name="picture">Picture represeinting PexesoCard</param>
+        public void AddToPexesoBoard(int row, int column, Image picture)
         {
             Random rnd = new Random();
-            pexesoCardsArray[row, column] = new PexesoCard(rnd.Next(8), picture);
-            Console.WriteLine("Added [" + pexesoCardsArray[row, column].ToString() + "]");
+            _pexesoCardsArray[row, column] = new PexesoCard($"PexesoCard[{row}][{column}]", rnd.Next(8), picture);
+            Console.WriteLine("Added [" + _pexesoCardsArray[row, column].ToString() + "]");
         }
-
+        /// <summary>
+        /// Gets number of rows of pexesoCardsArray
+        /// </summary>
+        /// <returns>Number of rows of pexesoCardsArray</returns>
         public int getPexesoBoardRows()
         {
-            return pexesoCardsArray.GetLength(0);
+            return _pexesoCardsArray.GetLength(0);
         }
-
+        /// <summary>
+        /// Gets number of columns of pexesoCardsArray
+        /// </summary>
+        /// <returns>Number of columns of pexesoCardsArray</returns>
         public int getPexesoBoardColumns()
         {
-            return pexesoCardsArray.GetLength(1);
+            return _pexesoCardsArray.GetLength(1);
+        }
+        /// <summary>
+        /// Gets PexesoCard object from pexesoCardsArray on position from parameters
+        /// </summary>
+        /// <param name="row">Row parameter</param>
+        /// <param name="column">Column parameter</param>
+        /// <returns>PexesoCard object</returns>
+        public PexesoCard GetPexesoCard(int row, int column)
+        {
+            return _pexesoCardsArray[row, column];
+        }
+        /// <summary>
+        /// Clears all PexesoCards from array
+        /// </summary>
+        public void CleanPexesoBoard()
+        {
+            for(int i = 0; i < _pexesoCardsArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < _pexesoCardsArray.GetLength(1); j++)
+                {
+                    _pexesoCardsArray[i, j] = null;
+                }
+            }
         }
     }
 }

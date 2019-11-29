@@ -100,6 +100,6 @@
         private System.Windows.Forms.Label difficultyLabel;
         private System.Windows.Forms.ComboBox difficultyComboBox;
         private System.Windows.Forms.Button ChooseButton;
-        private System.Windows.Forms.Button CancelButton;
+        private new System.Windows.Forms.Button CancelButton;
     }
 }
