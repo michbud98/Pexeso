@@ -11,7 +11,7 @@ namespace Pexeso
         /// <summary>
         /// Used to identify the same cards. This int must be higher then or equal to 0
         /// </summary>
-        public int VerificationInt { get; set; }
+        public int VeryfInt { get; set; }
         /// <summary>
         /// Picture that will represent PexesoCard in UI
         /// </summary>
@@ -24,7 +24,7 @@ namespace Pexeso
         public PexesoCard(string name, int verificationInt, Image picture)
         {
             this.Name = name;
-            this.VerificationInt = verificationInt;
+            this.VeryfInt = verificationInt;
             this.Picture = picture;
             Found = false;
         }
@@ -34,7 +34,7 @@ namespace Pexeso
         /// <returns>String with Verification int and PictureBox name</returns>
         public override String ToString()
         {
-            return $"Pexeso card name: {Name}, Pexeso card verificationInt =  {VerificationInt}, Pexeso card found bool =  {Found}";
+            return $"Pexeso card name: {Name}, Pexeso card verificationInt =  {VeryfInt}, Pexeso card found bool =  {Found}";
         }
     }
 }

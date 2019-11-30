@@ -25,8 +25,8 @@ namespace Pexeso
         private string _gameDifficulty;
         /// <summary>
         /// Dictionary that stores 2 selected cards
-        /// Key - string with value equal to 0 (First card selected) or 1 (Second card selected)
-        /// Value - Array that stores information about PictureBox selected (0) and PexesoCard selected (1)
+        /// <para>Key - string with value equal to 0 (First card selected) or 1 (Second card selected)</para>
+        /// <para>Value - Array that stores information about PictureBox clicked (0) and PexesoCard selected (1)</para>
         /// </summary>
         private Dictionary<int, Object[]> _selectedCards = new Dictionary<int, Object[]>(2);
         
@@ -85,14 +85,14 @@ namespace Pexeso
                     PictureBox picture = new PictureBox
                     {
                         Name = $"pictureBox[{row}][{column}]",
-                        Image = ResourcesLibrary.Resource1.Smile,
+                        Image = ResourcesLibrary.Resource1.question_mark,
                         Size = new Size(width, height),
                         SizeMode = PictureBoxSizeMode.StretchImage,
                         Anchor = AnchorStyles.None
                     };
                     picture.MouseClick += Picture_Click;
                     pexesoLayoutPanel.Controls.Add(picture, column, row);
-                    board.AddToPexesoBoard(row, column, ResourcesLibrary.Resource1._1);
+                    board.AddToPexesoBoard(row, column);
                     
                 }
             }
@@ -107,7 +107,17 @@ namespace Pexeso
             PictureBox clickedPictureBox = sender as PictureBox;
             PexesoCard selectedPexesoCard = _board.GetPexesoCard(GetPictureBoxRow(clickedPictureBox.Name), GetPictureBoxColumn(clickedPictureBox.Name));
             SaveSelectedCard(clickedPictureBox, selectedPexesoCard);
-            
+            clickedPictureBox.Image = selectedPexesoCard.Picture;
+
+
+        }
+        /// <summary>
+        /// Sets difficulty
+        /// </summary>
+        /// <param name="difficultyRecieved">Difficulty recieved from DifficultyForm</param>
+        public void SetDifficulty(string difficultyRecieved)
+        {
+            _gameDifficulty = difficultyRecieved;
         }
         /// <summary>
         /// Saves Clicked PictureBox and selected PexesoCard into _selectedCards Dictionary
@@ -225,14 +235,6 @@ namespace Pexeso
                 throw new ArgumentException($"Cant extract column position from {pictureBoxName}", "pictureBoxName");
             }
         }
-        /// <summary>
-        /// Sets difficulty
-        /// </summary>
-        /// <param name="difficultyRecieved">Difficulty recieved from DifficultyForm</param>
-        public void SetDifficulty(string difficultyRecieved)
-        {
-            _gameDifficulty = difficultyRecieved;
-        }
 
         /// <summary>
         /// Creates a new game
@@ -241,17 +243,19 @@ namespace Pexeso
         /// <param name="e"></param>
         private void NewGameToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
+            //Prepares space for selected cards
+            _selectedCards[0] = null;
+            _selectedCards[1] = null;
             //Garbage collection from previous game
-            if(_board != null)
+            if (_board != null)
             {
                 _board.CleanPexesoBoard();
                 _board = null;
+                
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            //Prepares space for selected cards
-            _selectedCards.Add(0, null);
-            _selectedCards.Add(1, null);
+            
 
             //Shows a difficulty form to select difficulty
             DifficultyForm diffForm = new DifficultyForm(transferDelegate);

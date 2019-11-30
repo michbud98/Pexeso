@@ -47,5 +47,11 @@
     <Compile Include="PexesoCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ResourcesLibrary\ResourcesLibrary.csproj">
+      <Project>{5d5a3fc6-405e-494b-b5cc-d91cfa0d6686}</Project>
+      <Name>ResourcesLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
