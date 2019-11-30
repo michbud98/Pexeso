@@ -143,16 +143,19 @@
     <None Include="Pictures\28.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Pictures\29.png" />
+    <None Include="Pictures\question-mark.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Pictures\30.png" />
+    <None Include="Pictures\29.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Pictures\31.png" />
+    <None Include="Pictures\30.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Pictures\32.png" />
+    <None Include="Pictures\31.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pictures\32.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
