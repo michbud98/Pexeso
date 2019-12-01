@@ -16,17 +16,12 @@ namespace Pexeso
         /// Picture that will represent PexesoCard in UI
         /// </summary>
         public Image Picture { get; set; }
-        /// <summary>
-        /// Tells us if this PexesoCard was already found
-        /// </summary>
-        public bool Found { get; set; }
 
         public PexesoCard(string name, int verificationInt, Image picture)
         {
             this.Name = name;
             this.VeryfInt = verificationInt;
             this.Picture = picture;
-            Found = false;
         }
         /// <summary>
         /// Debug ToString
@@ -34,7 +29,7 @@ namespace Pexeso
         /// <returns>String with Verification int and PictureBox name</returns>
         public override String ToString()
         {
-            return $"Pexeso card name: {Name}, Pexeso card verificationInt =  {VeryfInt}, Pexeso card found bool =  {Found}";
+            return $"Pexeso card name: {Name}, Pexeso card verificationInt =  {VeryfInt}";
         }
     }
 }

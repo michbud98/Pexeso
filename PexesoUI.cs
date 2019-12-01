@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Pexeso
@@ -11,25 +11,36 @@ namespace Pexeso
     /// </summary>
     /// <param name="data">Data to be transfered</param>
     public delegate void DataTransfer(string data);
-
     public partial class PexesoForm : Form
     {
         /// <summary>
         /// Stores PexesoCards object in array
         /// </summary>
         private PexesoBoard _board;
+        /// <summary>
+        /// Delegate used to transfer selected difficulty from DifficultyForm
+        /// </summary>
         public DataTransfer transferDelegate;
         /// <summary>
         /// Stores game difficulty
         /// </summary>
         private string _gameDifficulty;
         /// <summary>
-        /// Dictionary that stores 2 selected cards
-        /// <para>Key - string with value equal to 0 (First card selected) or 1 (Second card selected)</para>
-        /// <para>Value - Array that stores information about PictureBox clicked (0) and PexesoCard selected (1)</para>
+        /// Stores currently select PictureBox
         /// </summary>
-        private Dictionary<int, Object[]> _selectedCards = new Dictionary<int, Object[]>(2);
-        
+        private PictureBox _selectedPictureBox;
+        /// <summary>
+        /// Stores PictureBox that was selected previously
+        /// </summary>
+        private PictureBox _beforeSelectedPictureBox;
+        /// <summary>
+        /// Stores currently select PexesoCard
+        /// </summary>
+        private PexesoCard _selectedPexesoCard;
+        /// <summary>
+        /// Stores PexesoCard that was selected previously
+        /// </summary>
+        private PexesoCard _beforeSelectedPexesoCard;
         /// <summary>
         /// Form that represents PexesoBoard on UI
         /// </summary>
@@ -37,6 +48,15 @@ namespace Pexeso
         {
             InitializeComponent();
             transferDelegate += new DataTransfer(SetDifficulty);
+            CreateNewGame();
+        }
+        /// <summary>
+        /// Sets difficulty
+        /// </summary>
+        /// <param name="difficultyRecieved">Difficulty recieved from DifficultyForm</param>
+        public void SetDifficulty(string difficultyRecieved)
+        {
+            _gameDifficulty = difficultyRecieved;
         }
         /// <summary>
         /// Creates a PexesoBoard representation on UI
@@ -93,109 +113,83 @@ namespace Pexeso
                     picture.MouseClick += Picture_Click;
                     pexesoLayoutPanel.Controls.Add(picture, column, row);
                     board.AddToPexesoBoard(row, column);
-                    
                 }
             }
         }
         /// <summary>
-        /// 
+        /// Selects a PictureBox from pexesoLayoutPanel
         /// </summary>
         /// <param name="sender">A Picture box object which we clicked</param>
-        /// <param name="e">A click event</param>
+        /// <param name="e">A click event</param>aa
         private void Picture_Click(object sender, EventArgs e)
         {
             PictureBox clickedPictureBox = sender as PictureBox;
-            PexesoCard selectedPexesoCard = _board.GetPexesoCard(GetPictureBoxRow(clickedPictureBox.Name), GetPictureBoxColumn(clickedPictureBox.Name));
-            SaveSelectedCard(clickedPictureBox, selectedPexesoCard);
-            clickedPictureBox.Image = selectedPexesoCard.Picture;
-
-
+            PexesoCard clickedPexesoCard = _board.GetPexesoCard(GetPictureBoxRow(clickedPictureBox.Name), GetPictureBoxColumn(clickedPictureBox.Name));
+            clickedPictureBox.Image = clickedPexesoCard.Picture;
+            clickedPictureBox.Refresh();
+            if (_selectedPictureBox == null && _selectedPexesoCard == null)
+            {
+                _selectedPictureBox = clickedPictureBox;
+                _selectedPexesoCard = clickedPexesoCard;
+            }else if (_selectedPictureBox != null && _selectedPexesoCard != null)
+            {
+                _beforeSelectedPictureBox = _selectedPictureBox;
+                _beforeSelectedPexesoCard = _selectedPexesoCard;
+                _selectedPictureBox = clickedPictureBox;
+                _selectedPexesoCard = clickedPexesoCard;
+                CheckIfSamePair();
+                _selectedPictureBox = null;
+                _beforeSelectedPictureBox = null;
+                _selectedPexesoCard = null;
+                _beforeSelectedPexesoCard = null;
+                CheckIfGameEnds();
+            }
         }
         /// <summary>
-        /// Sets difficulty
+        /// Checks if two selected PexesoCards are from the same pair
         /// </summary>
-        /// <param name="difficultyRecieved">Difficulty recieved from DifficultyForm</param>
-        public void SetDifficulty(string difficultyRecieved)
+        private void CheckIfSamePair()
         {
-            _gameDifficulty = difficultyRecieved;
-        }
-        /// <summary>
-        /// Saves Clicked PictureBox and selected PexesoCard into _selectedCards Dictionary
-        /// </summary>
-        /// <param name="clickedPictureBox">PictureBox that player clicked on</param>
-        /// <param name="selectedPexesoCard">PexesoCard that was selected through clicked PictureBox</param>
-        private void SaveSelectedCard(PictureBox clickedPictureBox, PexesoCard selectedPexesoCard)
-        {
-            if (_selectedCards[0] == null)
+            //Sleeps main thread so that user can see the card that he selected
+            Thread.Sleep(700);
+            pexesoLayoutPanel.Enabled = false;
+            if (_board.CheckIfSame(_selectedPexesoCard, _beforeSelectedPexesoCard))
             {
-                SaveSelectedCardInternal(clickedPictureBox, selectedPexesoCard, 0);
-            }
-            else if(_selectedCards[0] != null && _selectedCards[1] == null)
-            {
-                SaveSelectedCardInternal(clickedPictureBox, selectedPexesoCard, 1);
-            }
-            else if (_selectedCards[0] != null && _selectedCards[1] != null)
-            {
-                _selectedCards[0] = null;
-                _selectedCards[1] = null;
-                SaveSelectedCardInternal(clickedPictureBox, selectedPexesoCard, 0);
-            }
-            PrintSelectedCard();
-        }
-        /// <summary>
-        /// Internal method of SaveSelectedCard
-        /// </summary>
-        /// <param name="clickedPictureBox">PictureBox that player clicked on</param>
-        /// <param name="selectedPexesoCard">PexesoCard that was selected through clicked PictureBox</param>
-        private void SaveSelectedCardInternal(PictureBox clickedPictureBox, PexesoCard selectedPexesoCard, int orderInt)
-        {
-            if(orderInt > 1 && orderInt < 0)
-            {
-                throw new ArgumentException("Order int for selected card is 0 or 1.", "orderInt");
+                _board.PexesoBoardPairs -= 1;
+                _selectedPictureBox.Image = ResourcesLibrary.Resource1.Smile;
+                _beforeSelectedPictureBox.Image = ResourcesLibrary.Resource1.Smile;
             }
             else
             {
-                Object[] PexesoCardArray = new Object[2];
-                PexesoCardArray[0] = clickedPictureBox;
-                PexesoCardArray[1] = selectedPexesoCard;
-                _selectedCards[orderInt] = PexesoCardArray;
+                _selectedPictureBox.Image = ResourcesLibrary.Resource1.question_mark;
+                _beforeSelectedPictureBox.Image = ResourcesLibrary.Resource1.question_mark;
             }
+            pexesoLayoutPanel.Enabled = true;
         }
         /// <summary>
-        /// Prints out currently selected PexesoCards
+        /// Checks if player found all PexesoCars pair and if he did asks him if he wants to create a new game
         /// </summary>
-        private void PrintSelectedCard()
+        private void CheckIfGameEnds()
         {
-            PictureBox checkPictureBox = null;
-            if (_selectedCards[0] != null && _selectedCards[1] == null)
+            if (_board.IsGameWon() == true)
             {
-                Console.WriteLine("-----First selected card-----");
-                checkPictureBox = _selectedCards[0][0] as PictureBox;
-                Console.WriteLine($"Clicked PictureBox name:{checkPictureBox.Name}");
-                Console.WriteLine($"[{_selectedCards[0][1].ToString()}]");
-                Console.WriteLine("-----Second selected card-----");
-                Console.WriteLine("-----Not yet selected-----");
-                Console.WriteLine();
+                DialogResult dialogResult = MessageBox.Show("You found all PexesoCard pairs. The game will now exit if you dont create a new game." +
+                    " Do you want to create a new game?", "Congratulations!", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    CreateNewGame();
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    this.Close();
+                }
             }
-            else if (_selectedCards[0] != null && _selectedCards[1] != null)
-            {
-                Console.WriteLine("-----First selected card-----");
-                checkPictureBox = _selectedCards[0][0] as PictureBox;
-                Console.WriteLine($"Clicked PictureBox name:{checkPictureBox.Name}");
-                Console.WriteLine($"[{_selectedCards[0][1].ToString()}]");
-                Console.WriteLine("-----Second selected card-----");
-                checkPictureBox = _selectedCards[1][0] as PictureBox;
-                Console.WriteLine($"Clicked PictureBox name:{checkPictureBox.Name}");
-                Console.WriteLine($"[{_selectedCards[1][1].ToString()}]");
-                Console.WriteLine();
-            }
-            
         }
         /// <summary>
         /// Finds row coordinate of pictureBox
         /// </summary>
         /// <param name="pictureBoxName">PictureBox name on which we clicked</param>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException">PictureBox name doesnt match regex or position cant be extracted</exception>
         /// <returns>PictureBox row coordinate</returns>
         private int GetPictureBoxRow(string pictureBoxName)
         {
@@ -209,7 +203,7 @@ namespace Pexeso
                 throw new ArgumentException($"{pictureBoxName} doesnt match regex.", "pictureBoxName");
             }else
             {
-                throw new ArgumentException($"Cant extract row position from {pictureBoxName}", "pictureBoxName");
+                throw new ArgumentException($"Cant extract position from {pictureBoxName}", "pictureBoxName");
             }
         }
         /// <summary>
@@ -235,7 +229,6 @@ namespace Pexeso
                 throw new ArgumentException($"Cant extract column position from {pictureBoxName}", "pictureBoxName");
             }
         }
-
         /// <summary>
         /// Creates a new game
         /// </summary>
@@ -243,20 +236,22 @@ namespace Pexeso
         /// <param name="e"></param>
         private void NewGameToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            //Prepares space for selected cards
-            _selectedCards[0] = null;
-            _selectedCards[1] = null;
+            CreateNewGame();
+        }
+        /// <summary>
+        /// Creates a new game
+        /// </summary>
+        private void CreateNewGame()
+        {
             //Garbage collection from previous game
             if (_board != null)
             {
                 _board.CleanPexesoBoard();
                 _board = null;
-                
+
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            
-
             //Shows a difficulty form to select difficulty
             DifficultyForm diffForm = new DifficultyForm(transferDelegate);
             diffForm.ShowDialog();
@@ -278,7 +273,7 @@ namespace Pexeso
                         break;
                 }
             }
-            catch(ArgumentException ex)
+            catch (ArgumentException ex)
             {
                 MessageBox.Show(ex.Message);
             }

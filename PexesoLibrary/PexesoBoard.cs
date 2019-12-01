@@ -22,6 +22,10 @@ namespace Pexeso
         /// Stores images based on verification numbers
         /// </summary>
         private Dictionary<int, Image> _picturesDictionary = new Dictionary<int, Image>();
+        /// <summary>
+        /// Saves how much pairs of PexesoCards is on PexesoBoard
+        /// </summary>a
+        public int PexesoBoardPairs { get; set; }
 
         /// <summary>
         /// Constructor of PexesoBoard class
@@ -34,7 +38,8 @@ namespace Pexeso
             if (rowCount * columnCount % 2 == 0)
             {
                 this._pexesoCardsArray = new PexesoCard[rowCount, columnCount];
-                FillVerificationDictionary(_pexesoCardsArray.Length/2);
+                PexesoBoardPairs = _pexesoCardsArray.Length / 2;
+                FillVerificationDictionary(PexesoBoardPairs);
                 FillImagesDictionary();
             }
             else
@@ -51,7 +56,7 @@ namespace Pexeso
         /// <param name="picture">Picture represeinting PexesoCard</param>
         public void AddToPexesoBoard(int row, int column)
         {
-            int verifInt = FindVerificationInt(_pexesoCardsArray.Length / 2);
+            int verifInt = FindVerificationInt(PexesoBoardPairs);
             _pexesoCardsArray[row, column] = new PexesoCard($"PexesoCard[{row}][{column}]", verifInt, FindImage(verifInt));
             Console.WriteLine("Added [" + _pexesoCardsArray[row, column].ToString() + "]");
         }
@@ -132,6 +137,37 @@ namespace Pexeso
             _picturesDictionary.Add(31, ResourcesLibrary.Resource1._32);
 
         }
+
+        public bool IsGameWon()
+        {
+            if(PexesoBoardPairs == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Checks if PexesoCards belong to same pair
+        /// </summary>
+        /// <param name="card1">First PexesoCard</param>
+        /// <param name="card2">Second PexesoCard</param>
+        /// <returns>True - belong to same pair, False - doesnt belong to same pair</returns>
+        public bool CheckIfSame(PexesoCard card1, PexesoCard card2)
+        {
+            if(card1.VeryfInt == card2.VeryfInt)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Gets number of rows of pexesoCardsArray
         /// </summary>
