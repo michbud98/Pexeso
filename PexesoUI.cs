@@ -69,7 +69,7 @@ namespace Pexeso
         {
             if (rowCount != board.getPexesoBoardRows())
             {
-                throw new ArgumentException("UI board rowCount and PexesoBoard rowCount is not the same.","rowCount");
+                throw new ArgumentException("UI board rowCount and PexesoBoard rowCount is not the same.", "rowCount");
             }
             if (columnCount != board.getPexesoBoardColumns())
             {
@@ -131,7 +131,8 @@ namespace Pexeso
             {
                 _selectedPictureBox = clickedPictureBox;
                 _selectedPexesoCard = clickedPexesoCard;
-            }else if (_selectedPictureBox != null && _selectedPexesoCard != null)
+            }
+            else if (_selectedPictureBox != null && _selectedPexesoCard != null)
             {
                 _beforeSelectedPictureBox = _selectedPictureBox;
                 _beforeSelectedPexesoCard = _selectedPexesoCard;
@@ -158,6 +159,8 @@ namespace Pexeso
                 _board.PexesoBoardPairs -= 1;
                 _selectedPictureBox.Image = ResourcesLibrary.Resource1.Smile;
                 _beforeSelectedPictureBox.Image = ResourcesLibrary.Resource1.Smile;
+                _selectedPictureBox.Enabled = false;
+                _beforeSelectedPictureBox.Enabled = false;
             }
             else
             {
@@ -198,10 +201,12 @@ namespace Pexeso
             if (match.Success && Int32.TryParse(match.Groups[2].Value, out int result))
             {
                 return result;
-            }else if (!match.Success)
+            }
+            else if (!match.Success)
             {
                 throw new ArgumentException($"{pictureBoxName} doesnt match regex.", "pictureBoxName");
-            }else
+            }
+            else
             {
                 throw new ArgumentException($"Cant extract position from {pictureBoxName}", "pictureBoxName");
             }
@@ -248,7 +253,7 @@ namespace Pexeso
             {
                 _board.CleanPexesoBoard();
                 _board = null;
-
+                _gameDifficulty = null;
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
