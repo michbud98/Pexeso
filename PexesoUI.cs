@@ -11,7 +11,7 @@ namespace Pexeso
     /// </summary>
     /// <param name="data">Data to be transfered</param>
     public delegate void DataTransfer(string data);
-    public partial class PexesoForm : Form
+    public partial class PexesoUI : Form
     {
         /// <summary>
         /// Stores PexesoCards object in array
@@ -44,7 +44,7 @@ namespace Pexeso
         /// <summary>
         /// Form that represents PexesoBoard on UI
         /// </summary>
-        public PexesoForm()
+        public PexesoUI()
         {
             InitializeComponent();
             transferDelegate += new DataTransfer(SetDifficulty);
@@ -138,18 +138,21 @@ namespace Pexeso
                 _beforeSelectedPexesoCard = _selectedPexesoCard;
                 _selectedPictureBox = clickedPictureBox;
                 _selectedPexesoCard = clickedPexesoCard;
-                CheckIfSamePair();
+                if (CheckIfSamePair())
+                {
+                    CheckIfGameEnds();
+                }
                 _selectedPictureBox = null;
                 _beforeSelectedPictureBox = null;
                 _selectedPexesoCard = null;
                 _beforeSelectedPexesoCard = null;
-                CheckIfGameEnds();
+                
             }
         }
         /// <summary>
         /// Checks if two selected PexesoCards are from the same pair
         /// </summary>
-        private void CheckIfSamePair()
+        private bool CheckIfSamePair()
         {
             //Sleeps main thread so that user can see the card that he selected
             Thread.Sleep(700);
@@ -161,6 +164,8 @@ namespace Pexeso
                 _beforeSelectedPictureBox.Image = ResourcesLibrary.Resource1.Smile;
                 _selectedPictureBox.Enabled = false;
                 _beforeSelectedPictureBox.Enabled = false;
+                pexesoLayoutPanel.Enabled = true;
+                return true;
             }
             else
             {
@@ -168,6 +173,7 @@ namespace Pexeso
                 _beforeSelectedPictureBox.Image = ResourcesLibrary.Resource1.question_mark;
             }
             pexesoLayoutPanel.Enabled = true;
+            return false;
         }
         /// <summary>
         /// Checks if player found all PexesoCars pair and if he did asks him if he wants to create a new game
@@ -269,7 +275,7 @@ namespace Pexeso
                         _board = new PexesoBoard(4, 4);
                         GeneratePexesoTable(4, 4, _board);
                         break;
-                    case "Normal":
+                    case "Hard":
                         _board = new PexesoBoard(8, 8);
                         GeneratePexesoTable(8, 8, _board);
                         break;

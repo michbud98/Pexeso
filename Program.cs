@@ -16,7 +16,7 @@ namespace Pexeso
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PexesoForm());
+            Application.Run(new PexesoUI());
         }
     }
 }

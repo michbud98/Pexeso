@@ -48,7 +48,7 @@
             this.difficultyComboBox.FormattingEnabled = true;
             this.difficultyComboBox.Items.AddRange(new object[] {
             "Easy",
-            "Normal"});
+            "Hard"});
             this.difficultyComboBox.Location = new System.Drawing.Point(16, 33);
             this.difficultyComboBox.Name = "difficultyComboBox";
             this.difficultyComboBox.Size = new System.Drawing.Size(239, 28);

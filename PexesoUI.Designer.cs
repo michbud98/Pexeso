@@ -1,6 +1,6 @@
 ﻿namespace Pexeso
 {
-    partial class PexesoForm
+    partial class PexesoUI
     {
         /// <summary>
         /// Required designer variable.

@@ -44,7 +44,7 @@ namespace Pexeso
             }
             else
             {
-                throw new ArgumentException($"Error: Cant create PexesoBoard with odd number of elements. Create PexesoBoard with even number of elements");
+                throw new ArgumentException("Error: Cant create PexesoBoard with odd number of elements. Create PexesoBoard with even number of elements");
             }
         }
 
@@ -137,7 +137,10 @@ namespace Pexeso
             _picturesDictionary.Add(31, ResourcesLibrary.Resource1._32);
 
         }
-
+        /// <summary>
+        /// Checks if player won the game
+        /// </summary>
+        /// <returns>Bool true or false</returns>
         public bool IsGameWon()
         {
             if(PexesoBoardPairs == 0)
@@ -149,7 +152,6 @@ namespace Pexeso
                 return false;
             }
         }
-
         /// <summary>
         /// Checks if PexesoCards belong to same pair
         /// </summary>
@@ -193,6 +195,11 @@ namespace Pexeso
         public PexesoCard GetPexesoCard(int row, int column)
         {
             return _pexesoCardsArray[row, column];
+        }
+
+        public PexesoCard[,] GetPexesoCardsArray()
+        {
+            return _pexesoCardsArray;
         }
         /// <summary>
         /// Clears all PexesoCards from array
