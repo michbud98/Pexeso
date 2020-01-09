@@ -18,6 +18,10 @@ namespace Pexeso
         /// </summary>
         private PexesoBoard _board;
         /// <summary>
+        /// Stores how much guesses was needed to find all pairs
+        /// </summary>
+        private int completedCounter = 0;
+        /// <summary>
         /// Delegate used to transfer selected difficulty from DifficultyForm
         /// </summary>
         public DataTransfer transferDelegate;
@@ -135,6 +139,7 @@ namespace Pexeso
             }
             else if (_selectedPictureBox != null && _selectedPexesoCard != null)
             {
+                completedCounter += 1;
                 _beforeSelectedPictureBox = _selectedPictureBox;
                 _beforeSelectedPexesoCard = _selectedPexesoCard;
                 _selectedPictureBox = clickedPictureBox;
@@ -187,7 +192,7 @@ namespace Pexeso
         {
             if (_board.IsGameWon() == true)
             {
-                DialogResult dialogResult = MessageBox.Show("You found all PexesoCard pairs. The game will now exit if you dont create a new game." +
+                DialogResult dialogResult = MessageBox.Show($"You found all PexesoCard pairs in {completedCounter} guesses. The game will now exit if you dont create a new game." +
                     " Do you want to create a new game?", "Congratulations!", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -265,6 +270,7 @@ namespace Pexeso
                 _board.CleanPexesoBoard();
                 _board = null;
                 _gameDifficulty = null;
+                completedCounter = 0;
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
