@@ -131,6 +131,7 @@ namespace Pexeso
             {
                 _selectedPictureBox = clickedPictureBox;
                 _selectedPexesoCard = clickedPexesoCard;
+                _selectedPictureBox.Enabled = false;
             }
             else if (_selectedPictureBox != null && _selectedPexesoCard != null)
             {
@@ -142,11 +143,15 @@ namespace Pexeso
                 {
                     CheckIfGameEnds();
                 }
+                else
+                {
+                    _selectedPictureBox.Enabled = true;
+                    _beforeSelectedPictureBox.Enabled = true;
+                }
                 _selectedPictureBox = null;
                 _beforeSelectedPictureBox = null;
                 _selectedPexesoCard = null;
                 _beforeSelectedPexesoCard = null;
-                
             }
         }
         /// <summary>
